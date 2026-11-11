@@ -1,0 +1,32 @@
+# Day 2 — Redpanda = Kafka-compatible, single container, no Zookeeper.
+# Postgres holds Gold-mart mirror + agent run metadata (local demo).
+services:
+  redpanda:
+    image: redpandadata/redpanda:v24.2.9
+    container_name: claims-redpanda
+    command:
+      - redpanda
+      - start
+      - --smp 1
+      - --memory 1G
+      - --overprovisioned
+      - --node-id 0
+      - --check=false
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:19092
+    ports:
+      - "19092:19092"
+      - "9644:9644"
+  postgres:
+    image: postgres:16
+    container_name: claims-postgres
+    environment:
+      POSTGRES_USER: claims
+      POSTGRES_PASSWORD: claims
+      POSTGRES_DB: claims
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:

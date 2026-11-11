@@ -1,0 +1,7 @@
+# Day 1 — stdlib only for generator + Bronze. Heavy deps arrive on their day.
+pytest==8.3.4
+# Day 2: kafka-python
+# Day 3: pyspark==3.5.3, delta-spark==3.2.0
+# Day 5: dbt-core, dbt-duckdb (local) / dbt-snowflake
+# Day 6: langgraph, langchain-core, openai / local LLM
+# Day 9: fastapi, uvicorn
