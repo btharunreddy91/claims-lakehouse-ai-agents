@@ -3,7 +3,7 @@
 **Real-time Insurance Claims Lakehouse with a Multi-Agent AI layer.**
 Built a little every day — not a weekend dump.
 
-> Domain: Insurance (claims, policy, billing) — Tharun's domain at MetLife.
+> Domain: Insurance (claims, policy, billing).
 > Stack: Python · Kafka (Redpanda) · PySpark Structured Streaming · Delta Lake / Medallion (Bronze → Silver → Gold) · dbt · Snowflake · Postgres · Great Expectations · LangGraph / LangChain Agents · FastAPI
 
 ## The problem it solves
@@ -81,11 +81,25 @@ python -m src.ingestion.bronze_ingest --input data/raw/claims.jsonl
 pytest -q
 ```
 
-With Docker (Day 2+):
+## Quickstart — Day 2 (Kafka / Redpanda)
 
 ```bash
 docker compose up -d   # Redpanda (Kafka) + Postgres
+python -m src.generator.kafka_producer --count 100
+python -m src.ingestion.kafka_consumer --count 100 --to-bronze
+# or: make produce && make consume
 ```
+
+No Docker? Use the broker-free dry-run (same records, same validation
+and Bronze code path — it does not prove the broker works):
+
+```bash
+python -m src.generator.kafka_producer --count 100 --dry-run
+python -m src.ingestion.kafka_consumer --count 100 --dry-run --to-bronze
+```
+
+See [docs/kafka.md](docs/kafka.md) for topic design (`claims.raw`, 3
+partitions, key `claim_id`), `rpk` commands, and failure modes.
 
 ## Repo layout
 

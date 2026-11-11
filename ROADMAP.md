@@ -8,9 +8,13 @@ Rule: **each day ships one runnable slice + one commit.** No day tries to do eve
   Repo init, architecture, synthetic claims generator (policies, customers,
   claims with realistic distributions), Bronze ingestion with schema
   validation, partitioned local lakehouse, tests.
-- [ ] **Day 2 — Kafka (Redpanda)**
+- [x] **Day 2 — Kafka (Redpanda)**
   `docker-compose.yml` (Redpanda + Postgres), producer publishes to
   `claims.raw`, consumer reads it back, topic / schema notes.
+  Done Nov 11: `kafka_producer.py` + `kafka_consumer.py` (key=claim_id,
+  validation + quarantine, `--to-bronze`), `docs/kafka.md`, broker-free
+  tests. Live Redpanda run NOT yet verified — no Docker in this VM;
+  dry-run round-trip verified instead (see docs/kafka.md).
 - [ ] **Day 3 — Spark Streaming: Bronze → Silver**
   Structured Streaming job, Delta Lake, dedupe by `claim_id`, type casting,
   late-data watermark.

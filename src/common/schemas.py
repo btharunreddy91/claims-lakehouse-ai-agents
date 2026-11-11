@@ -45,13 +45,19 @@ class Claim:
             errors.append(f"status={self.status!r} not in {CLAIM_STATUSES}")
         if self.state not in US_STATES:
             errors.append(f"state={self.state!r} not in {US_STATES}")
-        if self.claim_amount is None or self.claim_amount < 0:
-            errors.append(f"claim_amount={self.claim_amount!r} must be >= 0")
         try:
-            date.fromisoformat(self.filed_date)
-            date.fromisoformat(self.incident_date)
+            amount = float(self.claim_amount)  # type: ignore[arg-type]
+        except (TypeError, ValueError):
+            errors.append(f"claim_amount={self.claim_amount!r} is not a number")
+        else:
+            if amount < 0:
+                errors.append(f"claim_amount={self.claim_amount!r} must be >= 0")
+        try:
+            filed = date.fromisoformat(self.filed_date)
+            incident = date.fromisoformat(self.incident_date)
         except ValueError as e:
             errors.append(f"bad date: {e}")
-        if self.incident_date > self.filed_date:
-            errors.append("incident_date after filed_date")
+        else:
+            if incident > filed:
+                errors.append("incident_date after filed_date")
         return errors
