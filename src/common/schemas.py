@@ -6,7 +6,7 @@ Spark / Delta schemas (Day 3) are derived from these field lists.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 
 CLAIM_TYPES = ["auto", "property", "health", "life"]
 CLAIM_STATUSES = ["filed", "in_review", "approved", "denied", "paid", "closed"]
@@ -34,7 +34,7 @@ class Claim:
     incident_date: str  # YYYY-MM-DD
     state: str
     description: str = ""
-    ingested_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+    ingested_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
     def validate(self) -> list[str]:
         """Return a list of validation errors; empty = valid."""
