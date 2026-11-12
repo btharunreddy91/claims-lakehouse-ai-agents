@@ -15,9 +15,14 @@ Rule: **each day ships one runnable slice + one commit.** No day tries to do eve
   validation + quarantine, `--to-bronze`), `docs/kafka.md`, broker-free
   tests. Live Redpanda run NOT yet verified — no Docker in this VM;
   dry-run round-trip verified instead (see docs/kafka.md).
-- [ ] **Day 3 — Spark Streaming: Bronze → Silver**
+- [x] **Day 3 — Spark Streaming: Bronze → Silver**
   Structured Streaming job, Delta Lake, dedupe by `claim_id`, type casting,
   late-data watermark.
+  Done Nov 12: `src/streaming/bronze_to_silver.py` (real job, Delta,
+  7-day watermark, checkpoint) + `src/streaming/silver_transform.py`
+  (Spark-free mirror of the same rules) + `docs/spark.md`, 8/8 new
+  tests passing. Live Spark run NOT yet verified — no Java in this VM;
+  dry-run over the real Bronze files verified instead (see docs/spark.md).
 - [ ] **Day 4 — Silver cleaning + enrichment**
   Join policies/customers, standardise state / claim-type, derive
   `claim_age_days`, `is_high_value`, quarantine bad rows.

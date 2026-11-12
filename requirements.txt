@@ -4,7 +4,11 @@ pytest==8.3.4
 # import on Python 3.12 (missing kafka.vendor.six.moves). -ng is the
 # maintained fork, drop-in compatible (still `import kafka`).
 kafka-python-ng==2.2.2
-# Day 3: pyspark==3.5.3, delta-spark==3.2.0
+# Day 3: pyspark==3.5.3, delta-spark==3.2.0 (needs Java 17; this VM has none,
+# so the Spark job is verified via the Spark-free mirror in
+# src/streaming/silver_transform.py — see docs/spark.md)
+pyspark==3.5.3
+delta-spark==3.2.0
 # Day 5: dbt-core, dbt-duckdb (local) / dbt-snowflake
 # Day 6: langgraph, langchain-core, openai / local LLM
 # Day 9: fastapi, uvicorn

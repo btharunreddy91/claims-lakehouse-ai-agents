@@ -3,13 +3,17 @@
 PY := $(shell [ -x .venv/bin/python ] && echo .venv/bin/python || echo python3)
 PYTEST := $(shell [ -x .venv/bin/pytest ] && echo .venv/bin/pytest || echo pytest)
 
-.PHONY: test gen bronze up down produce consume produce-dry consume-dry
+.PHONY: test gen bronze silver silver-spark up down produce consume produce-dry consume-dry
 test:
 	$(PYTEST) -q
 gen:
 	$(PY) -m src.generator.generate_claims --count 1000
 bronze:
 	$(PY) -m src.ingestion.bronze_ingest --input data/raw/claims.jsonl
+silver:
+	$(PY) -m src.streaming.silver_transform --bronze data/bronze --silver data/silver
+silver-spark:
+	spark-submit --packages io.delta:delta-spark_2.12:3.2.0 -m src.streaming.bronze_to_silver --bronze data/bronze --silver data/silver --trigger once
 up:
 	docker compose up -d
 down:
