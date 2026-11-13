@@ -4,8 +4,11 @@ __pycache__/
 .pytest_cache/
 data/raw/
 data/bronze/
+data/bronze_open/
 data/silver/
 data/gold/
+data/raw_open/*.zip
+data/raw_open/cms_outpatient_sample1/
 .env
 *.parquet
 .DS_Store

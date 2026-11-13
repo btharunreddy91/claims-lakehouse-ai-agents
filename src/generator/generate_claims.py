@@ -15,7 +15,13 @@ import random
 from datetime import date, timedelta
 from pathlib import Path
 
-from src.common.schemas import CLAIM_STATUSES, CLAIM_TYPES, US_STATES
+from src.common.schemas import CLAIM_STATUSES, CLAIM_TYPES
+
+# Generator's weighted state mix (10 states, TX-heavy). US_STATES in schemas.py
+# is now the full 50-state validation list — do not pass it here, its weights
+# would not match.
+GENERATOR_STATES = ["TX", "CA", "NY", "AZ", "FL", "IL", "GA", "NC", "OH", "WA"]
+GENERATOR_STATE_WEIGHTS = [0.22, 0.16, 0.12, 0.08, 0.12, 0.08, 0.07, 0.06, 0.05, 0.04]
 
 FIRST = ["Aarav", "Priya", "Marcus", "Elena", "James", "Sofia", "David", "Meera",
          "Chris", "Anita", "Robert", "Lena", "Kiran", "Sarah", "Tom", "Nina"]
@@ -43,7 +49,7 @@ def _claim(rng: random.Random, i: int) -> dict:
         "claim_amount": amount,
         "filed_date": filed.isoformat(),
         "incident_date": incident.isoformat(),
-        "state": rng.choices(US_STATES, weights=[0.22, 0.16, 0.12, 0.08, 0.12, 0.08, 0.07, 0.06, 0.05, 0.04])[0],
+        "state": rng.choices(GENERATOR_STATES, weights=GENERATOR_STATE_WEIGHTS)[0],
         "description": f"{claim_type} claim filed in {filed.year}",
     }
 

@@ -10,7 +10,11 @@ from datetime import date, datetime, timezone
 
 CLAIM_TYPES = ["auto", "property", "health", "life"]
 CLAIM_STATUSES = ["filed", "in_review", "approved", "denied", "paid", "closed"]
-US_STATES = ["TX", "CA", "NY", "AZ", "FL", "IL", "GA", "NC", "OH", "WA"]
+US_STATES = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+             "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+             "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+             "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+             "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "DC"]
 
 # Bronze = raw, as received. All fields nullable except claim_id / event time.
 CLAIM_FIELDS = [
