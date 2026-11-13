@@ -23,9 +23,16 @@ Rule: **each day ships one runnable slice + one commit.** No day tries to do eve
   (Spark-free mirror of the same rules) + `docs/spark.md`, 8/8 new
   tests passing. Live Spark run NOT yet verified — no Java in this VM;
   dry-run over the real Bronze files verified instead (see docs/spark.md).
-- [ ] **Day 4 — Silver cleaning + enrichment**
+- [x] **Day 4 — Silver cleaning + enrichment**
   Join policies/customers, standardise state / claim-type, derive
   `claim_age_days`, `is_high_value`, quarantine bad rows.
+  Done Nov 13: `src/streaming/silver_enrich.py` (Spark-free mirror) +
+  `docs/silver_enrichment.md` (Spark SQL equivalent, not run here —
+  no Java) + 11 new tests. Dry-run over real Silver: 758 read /
+  758 enriched / 0 quarantined, 166 high-value (>= $25k),
+  725 dim customers / 755 dim policies derived from Silver itself
+  (no external policy/customer master exists in this demo — counts
+  are computed from the claims present, nothing invented).
 - [ ] **Day 5 — dbt Gold marts**
   `stg_claims`, `fct_claims`, `dim_policy`, `dim_customer`,
   `agg_claims_daily_state`. dbt tests (unique, not_null, accepted values).

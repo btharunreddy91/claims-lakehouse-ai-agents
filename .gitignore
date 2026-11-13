@@ -12,3 +12,4 @@ data/raw_open/cms_outpatient_sample1/
 .env
 *.parquet
 .DS_Store
+data/silver_enriched/
