@@ -33,9 +33,14 @@ Rule: **each day ships one runnable slice + one commit.** No day tries to do eve
   725 dim customers / 755 dim policies derived from Silver itself
   (no external policy/customer master exists in this demo — counts
   are computed from the claims present, nothing invented).
-- [ ] **Day 5 — dbt Gold marts**
+- [x] **Day 5 — dbt Gold marts**
   `stg_claims`, `fct_claims`, `dim_policy`, `dim_customer`,
   `agg_claims_daily_state`. dbt tests (unique, not_null, accepted values).
+  Done Nov 14: real dbt project in `src/dbt` (dbt-duckdb profile) +
+  stdlib mirror `src/dbt/build_gold.py` + `docs/dbt_gold.md`, 6 new tests.
+  Verified over real enriched Silver: 758 fct / 725 customers /
+  755 policies / 716 agg rows, totals reconcile at $11,975,925.09.
+  `dbt build` itself NOT run here — no dbt/DuckDB in this VM.
 
 ## Week 2 — The Agents
 

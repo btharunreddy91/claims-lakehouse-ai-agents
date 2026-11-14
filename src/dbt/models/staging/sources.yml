@@ -1,0 +1,36 @@
+version: 2
+
+sources:
+  - name: silver
+    description: >
+      Day 4 enriched Silver. In DuckDB this is a view over the partitioned
+      JSONL files — create it once before `dbt build` (see docs/dbt_gold.md):
+      CREATE OR REPLACE VIEW silver.silver_enriched AS
+      SELECT * FROM read_json_auto('data/silver_enriched/filed_date=*/part.jsonl',
+                                   union_by_name => true);
+      Nothing is invented here: the view reads exactly the rows Day 4 wrote.
+    tables:
+      - name: silver_enriched
+        description: Cleaned + enriched claims, one row per claim.
+        columns:
+          - name: claim_id
+            tests:
+              - unique
+              - not_null
+          - name: policy_id
+            tests:
+              - not_null
+          - name: customer_id
+            tests:
+              - not_null
+          - name: claim_type
+            tests:
+              - accepted_values:
+                  values: ['auto', 'property', 'health', 'life']
+          - name: status
+            tests:
+              - accepted_values:
+                  values: ['filed', 'in_review', 'approved', 'denied', 'paid', 'closed']
+          - name: claim_amount
+            tests:
+              - not_null

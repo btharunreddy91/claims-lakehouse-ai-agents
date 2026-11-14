@@ -3,7 +3,7 @@
 PY := $(shell [ -x .venv/bin/python ] && echo .venv/bin/python || echo python3)
 PYTEST := $(shell [ -x .venv/bin/pytest ] && echo .venv/bin/pytest || echo pytest)
 
-.PHONY: test gen bronze silver enrich silver-spark up down produce consume produce-dry consume-dry
+.PHONY: test gen bronze silver enrich gold silver-spark up down produce consume produce-dry consume-dry
 test:
 	$(PYTEST) -q
 gen:
@@ -14,6 +14,8 @@ silver:
 	$(PY) -m src.streaming.silver_transform --bronze data/bronze --silver data/silver
 enrich:
 	$(PY) -m src.streaming.silver_enrich --silver data/silver --out data/silver_enriched
+gold:
+	$(PY) -m src.dbt.build_gold --silver data/silver_enriched --out data/gold
 silver-spark:
 	spark-submit --packages io.delta:delta-spark_2.12:3.2.0 -m src.streaming.bronze_to_silver --bronze data/bronze --silver data/silver --trigger once
 up:

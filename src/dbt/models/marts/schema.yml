@@ -1,0 +1,65 @@
+version: 2
+
+models:
+  - name: fct_claims
+    description: One row per claim — the grain every mart joins to.
+    columns:
+      - name: claim_id
+        tests:
+          - unique
+          - not_null
+      - name: policy_id
+        tests:
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: claim_type
+        tests:
+          - accepted_values:
+              values: ['auto', 'property', 'health', 'life']
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['filed', 'in_review', 'approved', 'denied', 'paid', 'closed']
+      - name: claim_amount
+        tests:
+          - not_null
+      - name: filed_date
+        tests:
+          - not_null
+
+  - name: dim_customer
+    description: One row per customer, derived from the claims themselves.
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: claim_count
+        tests:
+          - not_null
+
+  - name: dim_policy
+    description: One row per policy, derived from the claims themselves.
+    columns:
+      - name: policy_id
+        tests:
+          - unique
+          - not_null
+      - name: claim_count
+        tests:
+          - not_null
+
+  - name: agg_claims_daily_state
+    description: Daily reporting mart, one row per (filed_date, state, claim_type).
+    columns:
+      - name: filed_date
+        tests:
+          - not_null
+      - name: state
+        tests:
+          - not_null
+      - name: claim_count
+        tests:
+          - not_null

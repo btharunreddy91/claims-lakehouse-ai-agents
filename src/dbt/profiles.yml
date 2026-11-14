@@ -1,0 +1,12 @@
+# Day 5 — dbt profile (DuckDB, local file).
+# The Gold tables land in data/gold/claims.duckdb next to the JSONL mirror
+# output, so the same Gold can be read by either path.
+claims_lakehouse:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../../data/gold/claims.duckdb
+      extensions:
+        - parquet
+        - json

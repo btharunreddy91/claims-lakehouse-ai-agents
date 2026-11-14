@@ -1,0 +1,24 @@
+# Day 5 — dbt Gold marts (dbt-duckdb)
+#
+# Real dbt project. Run it on a machine with dbt installed:
+#   pip install dbt-duckdb
+#   cd src/dbt && dbt build
+# This VM has no dbt/DuckDB, so the same transformations are verified
+# here by the stdlib mirror in src/dbt/build_gold.py (see docs/dbt_gold.md).
+name: claims_lakehouse
+version: 1.0.0
+config-version: 2
+profile: claims_lakehouse
+
+model-paths: ["models"]
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  claims_lakehouse:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
