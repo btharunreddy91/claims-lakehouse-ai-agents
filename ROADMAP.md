@@ -44,9 +44,19 @@ Rule: **each day ships one runnable slice + one commit.** No day tries to do eve
 
 ## Week 2 — The Agents
 
-- [ ] **Day 6 — Agent pattern + Analytics Agent v1**
+- [x] **Day 6 — Agent pattern + Analytics Agent v1**
   LangGraph 101 in this repo: state, nodes, tools. Text-to-SQL over Gold
   only, read-only, with SQL shown to the user.
+  Done Nov 15: `src/agents/analytics.py` (typed state, plan → validate →
+  execute → answer, rule-based offline planner + `plan_with_llm` seam,
+  read-only validator, row limit 100/1000, PII masking) + `src/agents/cli.py`
+  + `docs/agents.md`, 50 new tests. Real LangGraph 1.2.22 in the repo
+  `.venv` (verified); stdlib mirror fallback when it is not importable
+  (system python3 cannot install it — PEP 668 / Debian typing_extensions),
+  mirror returns identical rows/answers. Verified over real Gold: 758
+  claims, $11,975,925.09 total, TX top state $2,743,287.02, avg $15,799.37.
+  No LLM called in v1; unknown questions return "not supported yet"
+  instead of guessing SQL.
 - [ ] **Day 7 — Quality Agent**
   Great Expectations suite, profiling, auto-quarantine, Slack-style report.
 - [ ] **Day 8 — Pipeline Agent**

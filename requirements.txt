@@ -10,5 +10,9 @@ kafka-python-ng==2.2.2
 pyspark==3.5.3
 delta-spark==3.2.0
 # Day 5: dbt-core, dbt-duckdb (local) / dbt-snowflake
-# Day 6: langgraph, langchain-core, openai / local LLM
+# Day 6: langgraph==1.2.22 (installed in the repo .venv; system python3
+# cannot install it — PEP 668 + Debian typing_extensions conflict —
+# so analytics.py falls back to a stdlib mirror when langgraph is
+# absent; no LLM dependency in v1, plan_with_llm is only a seam)
+langgraph==1.2.22
 # Day 9: fastapi, uvicorn

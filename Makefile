@@ -3,9 +3,11 @@
 PY := $(shell [ -x .venv/bin/python ] && echo .venv/bin/python || echo python3)
 PYTEST := $(shell [ -x .venv/bin/pytest ] && echo .venv/bin/pytest || echo pytest)
 
-.PHONY: test gen bronze silver enrich gold silver-spark up down produce consume produce-dry consume-dry
+.PHONY: test gen bronze silver enrich gold silver-spark up down produce consume produce-dry consume-dry ask
 test:
 	$(PYTEST) -q
+ask:
+	$(PY) -m src.agents.analytics "$(Q)"
 gen:
 	$(PY) -m src.generator.generate_claims --count 1000
 bronze:
